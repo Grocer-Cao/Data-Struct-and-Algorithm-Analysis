@@ -16,21 +16,21 @@
  */
 
 //链式存储的C代码实现
-typedef struct ListArry
+typedef struct List
 {
     int data;
-    struct ListArry* next;
-}listarry;
+    struct List* next;
+}list;
 
-listarry* InitList(listarry* L)
+list* InitList(list* L)
 {
-    L = malloc(sizeof(listarry));
+    L = malloc(sizeof(list));
     L->data = 0;
     L->next = NULL;
     return L;
 }
 
-bool ListEmpty(listarry* L)
+bool ListEmpty(list* L)
 {
     if(L!=NULL)
         return false;
@@ -39,11 +39,11 @@ bool ListEmpty(listarry* L)
 
 }
 
-listarry* ClearList(listarry* L)
+list* ClearList(list* L)
 {
     if(L!=NULL)
     {
-        listarry* tempLsPt;
+        list* tempLsPt;
         while(L->next!=NULL)
         {
             tempLsPt = L;
@@ -56,12 +56,12 @@ listarry* ClearList(listarry* L)
     return L;
 }
 
-int ListLength(listarry* L)
+int ListLength(list* L)
 {
     if(L!=NULL)
     {
         int count = 1;
-        listarry* temp = L;
+        list* temp = L;
         while(temp->next!=NULL)
         {
             count++;
@@ -73,12 +73,12 @@ int ListLength(listarry* L)
         return 0;
 }
 
-int GetElem(listarry* L,int i,int *e)
+int GetElem(list* L,int i,int *e)
 {
     if((L!=NULL)&&i>0&&i<=ListLength(L))
     {
         int count = 0;
-        listarry* temp = L;
+        list* temp = L;
         for(;count<i-1;count++)
         {
             temp = temp->next;
@@ -93,12 +93,12 @@ int GetElem(listarry* L,int i,int *e)
     }
 }
 
-int LocateElem(listarry* L,int e)
+int LocateElem(list* L,int e)
 {
     if(L!=NULL)
     {
         int count  = 0;
-        listarry* temp = L;
+        list* temp = L;
         for(;count<ListLength(L);count++)
         {
             if(temp->data == e)
@@ -116,15 +116,15 @@ int LocateElem(listarry* L,int e)
         return -1;
 }
 
-int ListInsert(listarry* L,int i,int e)
+int ListInsert(list* L,int i,int e)
 {
     if((L!=NULL)&&(i>0)&&(i<=ListLength(L)+1))
     {
-        listarry* newElem;
+        list* newElem;
         newElem = InitList(newElem);
         newElem->data = e;
 
-        listarry* temp = L;
+        list* temp = L;
         int count = 0;
         for(;count<i-2;count++)
         {
@@ -139,12 +139,12 @@ int ListInsert(listarry* L,int i,int e)
         return -1;
 }
 
-int ListDelete(listarry* L,int i,int *e)
+int ListDelete(list* L,int i,int *e)
 {
     if((L!=NULL)&&(i>0)&&(i<=ListLength(L)+1))
     {
-        listarry* deleElem;
-        listarry* temp = L;
+        list* deleElem;
+        list* temp = L;
         int count = 0;
         for(;count<i-2;count++)
         {
@@ -169,14 +169,14 @@ int ListDelete(listarry* L,int i,int *e)
 int main()
 {
     //初始化操作，建立一个线性表
-    listarry* testlist;
+    list* testlist;
     testlist = InitList(testlist);
 
 
     //判断线性表是否为空
     ListEmpty(testlist)?printf("True\n"):printf("False\n");
     int i;
-    listarry *temp0,*temp1;
+    list *temp0,*temp1;
     temp0 = testlist;
     for(i=0;i<19;i++)
     {

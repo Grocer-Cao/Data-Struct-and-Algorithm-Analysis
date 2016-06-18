@@ -17,20 +17,20 @@
 
 
 //顺序存储的C代码实现
-typedef struct ListArry
+typedef struct List
 {
     int data[40];
     int length;
-}listarry;
+}list;
 
-listarry* InitList(listarry* L)
+list* InitList(list* L)
 {
-    L = malloc(sizeof(listarry));
+    L = malloc(sizeof(list));
     L->length = 0;
     return L;
 }
 
-bool ListEmpty(listarry *L)
+bool ListEmpty(list *L)
 {
     if(L!=NULL&&L->length==0)
         return true;
@@ -38,7 +38,7 @@ bool ListEmpty(listarry *L)
         return false;
 }
 
-int ClearList(listarry *L)
+int ClearList(list *L)
 {
     if(L!=NULL)
     {
@@ -49,7 +49,7 @@ int ClearList(listarry *L)
         return -1;
 }
 
-int GetElem(listarry *L,int i,int *e)
+int GetElem(list *L,int i,int *e)
 {
     if((L!=NULL) && (i>0) && (i<=L->length))
     {
@@ -63,7 +63,7 @@ int GetElem(listarry *L,int i,int *e)
     }
 }
 
-int LocateElem(listarry *L,int e)
+int LocateElem(list *L,int e)
 {
     if(L!=NULL)
     {
@@ -81,7 +81,7 @@ int LocateElem(listarry *L,int e)
         return -1;
 }
 
-int ListInsert(listarry *L,int i,int e)
+int ListInsert(list *L,int i,int e)
 {
     if((L!=NULL)&&(i>0)&&(i<=L->length+1))
     {
@@ -99,7 +99,7 @@ int ListInsert(listarry *L,int i,int e)
         return -1;
 }
 
-int ListDelete(listarry* L,int i,int *e)
+int ListDelete(list* L,int i,int *e)
 {
     if((L!=NULL)&&(i>0)&&(i<=L->length))
     {
@@ -119,7 +119,7 @@ int ListDelete(listarry* L,int i,int *e)
     }
 }
 
-int ListLength(listarry* L)
+int ListLength(list* L)
 {
     if(L!=NULL)
         return L->length;
@@ -133,7 +133,7 @@ int ListLength(listarry* L)
 int main()
 {
     //初始化操作，建立一个线性表
-    listarry* testlist;
+    list* testlist;
     testlist = InitList(testlist);
 
 
