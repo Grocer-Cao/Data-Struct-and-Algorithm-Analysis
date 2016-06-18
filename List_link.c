@@ -22,9 +22,9 @@ typedef struct List
     struct List* next;
 }list;
 
-list* InitList(list* L)
+list* InitList()
 {
-    L = malloc(sizeof(list));
+    list* L = malloc(sizeof(list));
     L->data = 0;
     L->next = NULL;
     return L;
@@ -170,7 +170,7 @@ int main()
 {
     //初始化操作，建立一个线性表
     list* testlist;
-    testlist = InitList(testlist);
+    testlist = InitList();
 
 
     //判断线性表是否为空

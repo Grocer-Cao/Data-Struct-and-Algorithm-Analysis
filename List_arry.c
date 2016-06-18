@@ -23,9 +23,9 @@ typedef struct List
     int length;
 }list;
 
-list* InitList(list* L)
+list* InitList()
 {
-    L = malloc(sizeof(list));
+    list* L = malloc(sizeof(list));
     L->length = 0;
     return L;
 }
@@ -134,7 +134,7 @@ int main()
 {
     //初始化操作，建立一个线性表
     list* testlist;
-    testlist = InitList(testlist);
+    testlist = InitList();
 
 
     //判断线性表是否为空
