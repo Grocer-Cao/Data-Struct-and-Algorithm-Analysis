@@ -14,26 +14,41 @@
     DestroyStack(*S):若栈存在，销毁这个栈。
  */
 
-//顺序存储的C代码实现
-#define StackSize 20
-typedef struct Stack
+//链表存储的C代码实现
+typedef struct StackNode
 {
-    int data[StackSize];
-    int top;
+    int data;
+    struct StackNode* next;
 }stack;
-
-stack* InitStack()
+typedef struct StackTopPtr
 {
-    stack* S = malloc(sizeof(stack));
-    S->top = -1;
-    return S;
+    stack* top;
+    int length;
+}topptr;
+
+topptr* InitStack()
+{
+    topptr* temp;
+    temp = malloc(sizeof(topptr));
+
+    if(temp!=NULL)
+    {
+        temp->length = 0;
+        temp->top = NULL;
+        return temp;
+    }
+    else
+    {
+        printf("Init Stack Error\n");
+        return NULL;
+    }
 }
 
-bool StackEmpty(stack* S)
+bool StackEmpty(topptr* S)
 {
-    if(S!=NULL&&S->top>-1)
+    if(S!=NULL&&S->length>0)
         return false;
-    else if(S!=NULL&&S->top==-1)
+    else if(S!=NULL&&S->length==0)
         return true;
     else
     {
@@ -42,55 +57,74 @@ bool StackEmpty(stack* S)
     }
 }
 
-int Push(stack* S,int e)
+int Push(topptr* S,int e)
 {
-    if(S!=NULL&&S->top!=StackSize-1)
+    if(S!=NULL)
     {
-        S->data[S->top+1] = e;
-        S->top++;
+        stack* temp;
+        temp = malloc(sizeof(stack));
+        temp->data = e;
+        temp->next = S->top;
+        S->top = temp;
+        S->length++;
         return 0;
     }
     else
     {
-        printf("Push Error\n");
+        printf("Push Error, Stack is NULL\n");
         return -1;
     }
 }
 
-int Pop(stack* S,int* e)
+int Pop(topptr* S,int* e)
 {
-    if(S!=NULL&&S->top!=-1)
+    if(S!=NULL&&S->length>0)
     {
-        *e = S->data[S->top];
-        S->top--;
+        stack* temp;
+        temp = S->top;
+        S->top = temp->next;
+        S->length--;
+
+        *e = temp->data;
+        free(temp);
         return 0;
+    }
+    else if(S!=NULL&&S->length==0)
+    {
+        printf("Pop Error, Stack is Empty\n");
+        return -1;
     }
     else
     {
-        printf("Pop Error\n");
+        printf("Pop Error, Stack is NULL\n");
         return -1;
     }
 }
 
-int GetTop(stack* S,int* e)
+int GetTop(topptr* S,int* e)
 {
-    if(S!=NULL&&S->top!=-1)
+    if(S!=NULL&&S->length>0)
     {
-        *e = S->data[S->top];
+        *e = S->top->data;
         return 0;
+    }
+    else if(S!=NULL&&S->length==0)
+    {
+        printf("Get Top Error, Stack is Empty\n");
+        return -1;
     }
     else
     {
-        printf("GetTop Error\n");
+        printf("Get Top Error, Stack is NULL\n");
         return -1;
     }
 }
 
-int StackLength(stack* S)
+int StackLength(topptr* S)
 {
-    if(S!=NULL&&S->top>-2)
+    if(S!=NULL)
     {
-        return S->top+1;
+        return S->length;
     }
     else
     {
@@ -99,11 +133,15 @@ int StackLength(stack* S)
     }
 }
 
-int ClearStack(stack* S)
+int ClearStack(topptr* S)
 {
     if(S!=NULL)
     {
-        S->top = -1;
+        int temp;
+        while(S->length>0)
+        {
+            Pop(S,&temp);
+        }
         return 0;
     }
     else
@@ -113,12 +151,15 @@ int ClearStack(stack* S)
     }
 }
 
-stack* DestroyStack(stack* S)
+topptr* DestroyStack(topptr* S)
 {
-    free(S);
+    if(S!=NULL)
+    {
+        ClearStack(S);
+        free(S);
+    }
     return NULL;
 }
-
 
 /**
  *MAIN函数
@@ -126,7 +167,7 @@ stack* DestroyStack(stack* S)
 int main()
 {
     //初始化操作，建立一个栈
-    stack* teststack;
+    topptr* teststack;
     teststack = InitStack();
 
     //判断栈是否为空
