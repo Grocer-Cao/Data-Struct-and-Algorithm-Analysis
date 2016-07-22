@@ -18,8 +18,6 @@
                              串S的第pos个字符起长度为len的子串。
     StrInsert(S,pos,T):串S和T存在，1<=pos<=StrLength(S)+1。在串S的第pos个字符之前插入串T。
     StrDelete(S,pos,len):串S存在，1<=pos<=StrLength(S)-len+1。从串S中删除第pos个字符起长度为len的子串。
-
-    TODO:
     Index(S,T,pos):串S和T存在，T是非空串，1<=pos<=StrLength(S)，若主串S中存在和串T值相同的子串，则
                    返回它在主串中第pos个字符之后第一次出现的位置，否则返回0。
     Replace(S,T,V):串S、T和V存在，T是非空串。用V替换主串S中出现的所有与T相等的不重叠子串。
@@ -178,6 +176,63 @@ int StrDelete(char* S,int pos,int len)
     return 0;
 }
 
+int Index(char* S,char* T,int pos)
+{
+    int pst = 0;
+    int lenT = StrLength(T);
+    int i,j,k;
+
+    i = pos-1;
+    while(i < StrLength(S))
+    {
+        k = i;
+        j = 0;
+        while(S[k]==T[j])
+        {
+            k++;
+            j++;
+
+            if(j == lenT)
+            {
+                pst = k - lenT + 1;
+                break;
+            }
+
+            if(k > StrLength(S))
+                break;
+        }
+        if(pst>0)
+        {
+            break;
+        }
+        i++;
+    }
+
+    return pst;
+}
+
+int Replace(char* S,char* T,char* V)
+{
+    int lenV =  StrLength(V);
+    int lenT =  StrLength(T);
+    char temp[StrLength(S)];
+    int pst = 0;
+
+    while(pst<StrLength(S))
+    {
+        pst = Index(S,T,1);
+
+        if(pst == 0)
+            break;
+
+        StrCopy(temp,&S[pst+lenT-1]);
+        S[pst-1] = '\0';
+        Concat(S,S,V);
+        Concat(S,S,temp);
+    }
+    return 0;
+}
+
 int main()
 {
     //获取字符串长度
@@ -238,6 +293,18 @@ int main()
     StrDelete(cc,3,6);
     printf("%s\n",cc);
 
+    //查找一个字符串的出现位置
+    char* st4 = "1234567890";
+    char* st5 = "567";
+    int position;
+    position = Index(st4,st5,1);
+    printf("%d\n",position);
+
+    //替换一个字符串中的子字符串
+    char dd[50] = {"abxxxabxxxababxxxxxxab"};
+    char* st6 = "yyy";
+    Replace(dd,"ab",st6);
+    printf("%s\n",dd);
 
     return 0;
 }
