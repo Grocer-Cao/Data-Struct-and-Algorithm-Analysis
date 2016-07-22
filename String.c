@@ -190,7 +190,7 @@ int getNext(char* T,int* next)
     while(count<StrLength(T))
     {
         //求next数组的关键：
-        //next[count-1] = N, 则说明T数组 0 ~ count-2 位中的前N-1位于后N-1位相同。
+        //next[count-1] = N, 则说明T数组 0 ~ count-2 位中的前N-1位与后N-1位相同。
         //所以只要比较T[count-1]与T[N-1],也就是比较T[count-1]与T[next[count-1]-1]。
         if (T[next[count-1]-1] == T[count-1])
         {
@@ -262,11 +262,15 @@ int Index(char* S,char* T,int pos)
         {
             if (j==0)
             {
-                i++;
+                if(i<StrLength(S)-StrLength(T)+1)
+                    i++;
+                //当剩余长度以小于T，而仍未有一个字符匹配时，直接退出
+                else
+                    break;
             }
             else
             {
-                j = nxt[j];
+                j = nxt[j] - 1;
             }
         }
         if (j == StrLength(T))
@@ -363,15 +367,15 @@ int main()
 
     //查找一个字符串的出现位置
     char* st4 = "1234567890";
-    char* st5 = "567";
+    char* st5 = "678";
     int position;
     position = Index(st4,st5,1);
     printf("%d\n",position);
 
     //替换一个字符串中的子字符串
-    char dd[50] = {"abxxxabxxxababxxxxxxab"};
-    char* st6 = "yyy";
-    Replace(dd,"ab",st6);
+    char dd[50] = {"ababbabbababaabbbabbabab"};
+    char* st6 = "***";
+    Replace(dd,"abaa",st6);
     printf("%s\n",dd);
 
     return 0;
