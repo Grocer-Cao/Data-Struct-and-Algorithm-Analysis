@@ -176,8 +176,41 @@ int StrDelete(char* S,int pos,int len)
     return 0;
 }
 
+/**
+ *KMP算法需要用到的获得next数组的函数
+ *例子： T = "abcabx";
+ *则：next =  011123;
+ */
+int getNext(char* T,int* next)
+{
+    next[0] = 0;
+    next[1] = 1;
+
+    int count = 2;
+    while(count<StrLength(T))
+    {
+        //求next数组的关键：
+        //next[count-1] = N, 则说明T数组 0 ~ count-2 位中的前N-1位于后N-1位相同。
+        //所以只要比较T[count-1]与T[N-1],也就是比较T[count-1]与T[next[count-1]-1]。
+        if (T[next[count-1]-1] == T[count-1])
+        {
+            next[count] = next[count-1] + 1;
+        }
+        else
+        {
+            next[count] = 1;
+        }
+
+        count++;
+    }
+
+    return 0;
+}
+
 int Index(char* S,char* T,int pos)
 {
+/*朴素的模式匹配算法*/
+/*
     int pst = 0;
     int lenT = StrLength(T);
     int i,j,k;
@@ -209,6 +242,41 @@ int Index(char* S,char* T,int pos)
     }
 
     return pst;
+*/
+
+/*KMP模式匹配算法*/
+    int nxt[StrLength(T)];
+    getNext(T,nxt);
+
+    int pst = 0;
+    int i = 0,j = 0;
+
+    while(i<StrLength(S))
+    {
+        if (S[i] == T[j])
+        {
+            i++;
+            j++;
+        }
+        else
+        {
+            if (j==0)
+            {
+                i++;
+            }
+            else
+            {
+                j = nxt[j];
+            }
+        }
+        if (j == StrLength(T))
+        {
+            pst = i - j + 1;
+            break;
+        }
+    }
+
+    return pst;
 }
 
 int Replace(char* S,char* T,char* V)
@@ -218,18 +286,18 @@ int Replace(char* S,char* T,char* V)
     char temp[StrLength(S)];
     int pst = 0;
 
-    while(pst<StrLength(S))
+    pst = Index(S,T,1);
+
+    while(pst > 0)
     {
-        pst = Index(S,T,1);
-
-        if(pst == 0)
-            break;
-
         StrCopy(temp,&S[pst+lenT-1]);
         S[pst-1] = '\0';
         Concat(S,S,V);
         Concat(S,S,temp);
+
+        pst = Index(S,T,pst+lenV-1);
     }
+
     return 0;
 }
 
