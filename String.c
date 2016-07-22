@@ -249,7 +249,7 @@ int Index(char* S,char* T,int pos)
     getNext(T,nxt);
 
     int pst = 0;
-    int i = 0,j = 0;
+    int i = pos - 1,j = 0;
 
     while(i<StrLength(S))
     {
