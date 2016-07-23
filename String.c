@@ -183,25 +183,26 @@ int StrDelete(char* S,int pos,int len)
  */
 int getNext(char* T,int* next)
 {
+    int i = 2;
+    int j = 0;
     next[0] = 0;
     next[1] = 1;
 
-    int count = 2;
-    while(count<StrLength(T))
+    while(i<strlen(T))
     {
-        //求next数组的关键：
-        //next[count-1] = N, 则说明T数组 0 ~ count-2 位中的前N-1位与后N-1位相同。
-        //所以只要比较T[count-1]与T[N-1],也就是比较T[count-1]与T[next[count-1]-1]。
-        if (T[next[count-1]-1] == T[count-1])
+        if(T[i-1]==T[j])
         {
-            next[count] = next[count-1] + 1;
+            next[i] = j+2;
+            i++;
+            j++;
+        }
+        else if(j == 0)
+        {
+            next[i] = j+1;
+            i++;
         }
         else
-        {
-            next[count] = 1;
-        }
-
-        count++;
+            j = next[j]-1;
     }
 
     return 0;
