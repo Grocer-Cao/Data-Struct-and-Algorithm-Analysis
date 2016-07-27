@@ -56,7 +56,6 @@ int Index(char* S,char* T,int pos)
     	{
     		j++;
     		i++;
-
     	}
     	else
     	{
@@ -70,7 +69,6 @@ int Index(char* S,char* T,int pos)
     		else
     			j = nxt[j] - 1;
     	}
-
 
     	if (j==strlen(T))
     	{
