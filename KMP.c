@@ -14,7 +14,7 @@ int getNext(char* T,int* next)
     int j;
     next[0] = 0;
     next[1] = 1;
-
+    
     //i在这里指的都是第T[i]个元素，即第i+1位
     i=2;
     //这里的j是T[j]个元素，（即第j+1位）
