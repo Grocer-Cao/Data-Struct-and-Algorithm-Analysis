@@ -14,7 +14,11 @@ int getNext(char* T,int* next)
     int j;
     next[0] = 0;
     next[1] = 1;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> ccb4ad9... KMP算法
     //i在这里指的都是第T[i]个元素，即第i+1位
     i=2;
     //这里的j是T[j]个元素，（即第j+1位）
@@ -56,6 +60,10 @@ int Index(char* S,char* T,int pos)
     	{
     		j++;
     		i++;
+<<<<<<< HEAD
+=======
+
+>>>>>>> ccb4ad9... KMP算法
     	}
     	else
     	{
@@ -70,6 +78,10 @@ int Index(char* S,char* T,int pos)
     			j = nxt[j] - 1;
     	}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ccb4ad9... KMP算法
     	if (j==strlen(T))
     	{
     		pst = i - j + 1;
